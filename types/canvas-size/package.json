@@ -1,7 +1,11 @@
 {
     "private": true,
     "name": "@types/canvas-size",
-    "version": "1.2.9999",
+    "version": "2.0.0",
+    "type": "module",
+    "main": "dist/canvas-size.js",
+    "module": "dist/canvas-size.esm.js",
+    "unpkg": "dist/canvas-size.min.js",
     "projects": [
         "https://github.com/jhildenbiddle/canvas-size"
     ],
