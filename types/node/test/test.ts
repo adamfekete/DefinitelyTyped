@@ -47,11 +47,19 @@ run({
         // $ExpectType TestsStream
         reporter;
     },
+    execArgv: ["--jitless"],
+    argv: ["--arbitrary-argument"],
     watch: true,
     shard: {
         index: 1,
         total: 3,
     },
+    coverage: true,
+    coverageExcludeGlobs: "*.no-coverage.*",
+    coverageIncludeGlobs: ["test-*", "benchmark-*"],
+    lineCoverage: 70,
+    branchCoverage: 50,
+    functionCoverage: 80,
 });
 
 // TestsStream should be a NodeJS.ReadableStream
@@ -936,6 +944,15 @@ class TestReporter extends Transform {
                 callback(null, `${message}/${file}`);
                 break;
             }
+            case "test:summary": {
+                const { counts, duration_ms, file, success } = event.data;
+                callback(
+                    null,
+                    `${file ?? "<multiple>"}/${success}/${duration_ms}/
+                    ${counts.topLevel}/${counts.tests}/${counts.passed}`,
+                );
+                break;
+            }
             case "test:watch:drained":
                 // event doesn't have any data
                 callback(null);
@@ -980,6 +997,12 @@ const invalidTestContext = new TestContext();
 
 // @ts-expect-error Should not be able to instantiate a SuiteContext
 const invalidSuiteContext = new SuiteContext();
+
+test("check all assertion functions are re-exported", t => {
+    type AssertModuleExports = keyof typeof import("assert");
+    const keys: keyof { [K in keyof typeof t.assert as K extends AssertModuleExports ? K : never]: any } =
+        {} as Exclude<AssertModuleExports, "AssertionError" | "CallTracker" | "strict">;
+});
 
 test("planning with streams", (t: TestContext, done) => {
     function* generate() {

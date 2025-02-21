@@ -35,9 +35,9 @@
         "experimental/csv/index.d.ts",
         "experimental/fs/index.d.ts",
         "experimental/redis/index.d.ts",
-        "experimental/tracing/index.d.ts",
         "experimental/webcrypto/index.d.ts",
         "experimental/websockets/index.d.ts",
+        "experimental/streams/index.d.ts",
 
         "test/browser.ts",
         "test/data.ts",
@@ -52,7 +52,6 @@
         "test/metrics.ts",
         "test/options.ts",
         "test/timers.ts",
-        "test/tracing.ts",
         "test/webcrypto.ts",
         "test/ws.ts",
         "test/crypto.ts",
